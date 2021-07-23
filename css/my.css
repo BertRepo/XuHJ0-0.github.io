@@ -1,0 +1,19 @@
+/* Here is your custom css styles. */
+* {
+margin:0;
+padding:0;
+}
+
+#top {
+background-color:yellow;
+width:80%;
+height:20%;
+overflow:auto;
+}
+
+#bottom {
+background-color:green;
+width:80%;
+height:80%;
+overflow:auto;
+}

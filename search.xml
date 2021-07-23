@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Python库之Pandas详解</title>
+      <link href="/2021/071758812.html"/>
+      <url>/2021/071758812.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="Pandas详解-参考相关资料整合完成"><a href="#Pandas详解-参考相关资料整合完成" class="headerlink" title="Pandas详解(参考相关资料整合完成)"></a>Pandas详解(参考相关资料整合完成)</h2><h3 id="一、Pandas介绍"><a href="#一、Pandas介绍" class="headerlink" title="一、Pandas介绍"></a>一、Pandas介绍</h3><p>Pandas 是 Python 语言的一个扩展程序库， 是一个开放源码、BSD 许可的库，提供高性能、易于使用的数据结构和数据分析工具。</p><p>其名字衍生自术语 “panel data”（面板数据）和 “Python data analysis”（Python 数据分析）。</p><p>Pandas基于 Numpy（提供高性能的矩阵运算），可以从各种文件格式比如 CSV、JSON、SQL、Microsoft Excel 导入数据， 是一个强大的分析结构化数据的工具集。其可以对各种数据进行运算操作，比如归并、再成形、选择，还有数据清洗和数据加工特征，广泛应用在学术、金融、统计学等各个数据分析领域。</p><hr><h3 id="二、数据结构"><a href="#二、数据结构" class="headerlink" title="二、数据结构"></a>二、数据结构</h3><h4 id="1、Series"><a href="#1、Series" class="headerlink" title="1、Series"></a>1、Series</h4><p>Series是一种类似于一维数组的对象，是由一组数据（各种numpy数据类型）以及一组与之相关的数据标签（即索引）组成。仅由一组数据也可产生简单的Series对象，注意：Series中的索引值是可以重复的，与Numpy中的一维array类似。二者与Python基本的数据结构List也很相近，其区别是：List中的元素可以是不同的数据类型，而Array和Series中则只允许存储相同的数据类型，这样可以更有效的使用内存，提高运算效率。</p><p>组成：索引（index）和列，其函数如下：</p><pre class=" language-python"><code class="language-python">pandas<span class="token punctuation">.</span>Series<span class="token punctuation">(</span> data<span class="token punctuation">,</span> index<span class="token punctuation">,</span> dtype<span class="token punctuation">,</span> name<span class="token punctuation">,</span> copy<span class="token punctuation">)</span></code></pre><p>参数说明：</p><ul><li><strong>data</strong>：一组数据(ndarray 类型)。形如 a = [1, 2, 3]或 b = [“Xu”, “H”, “J”]</li><li><strong>index</strong>：数据索引标签，如果不指定，默认从 0 开始，可根据索引值读取数据。指定索引值，形如index = [“x”, “y”, “z”]。如果只需要</li><li><strong>dtype</strong>：数据类型，默认会自己判断。</li><li><strong>name</strong>：设置 Series 名称。形如 name = “XuHJ0-0”</li><li><strong>copy</strong>：拷贝数据，默认为 False。</li></ul><h5 id="（1）指定索引值，创建Series"><a href="#（1）指定索引值，创建Series" class="headerlink" title="（1）指定索引值，创建Series"></a>（1）指定索引值，创建Series</h5><p>小试牛刀：指定数据和相应的索引值，创建一个Series，并指定索引值输出相应的数据</p><pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pda <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>test_series <span class="token operator">=</span> pd<span class="token punctuation">.</span>Series<span class="token punctuation">(</span>a<span class="token punctuation">,</span> index <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"x"</span><span class="token punctuation">,</span> <span class="token string">"y"</span><span class="token punctuation">,</span> <span class="token string">"z"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token keyword">print</span><span class="token punctuation">(</span>test_series<span class="token punctuation">[</span><span class="token string">"y"</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># 根据指定索引值打印输出对应数据</span></code></pre><p>输出结果如下：</p><pre><code>2</code></pre><h5 id="（2）使用key-value对象，类似字典来创建Series"><a href="#（2）使用key-value对象，类似字典来创建Series" class="headerlink" title="（2）使用key/value对象，类似字典来创建Series"></a>（2）使用key/value对象，类似字典来创建Series</h5><p>创建Series时，原先字典中的key变成了索引值（index），value变成了数据（data）。若我们只需要字典中的一部分数据，则只需要指定需要数据的索引值即可。</p><pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pdb <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Xu"</span><span class="token punctuation">,</span> <span class="token string">"H"</span><span class="token punctuation">,</span> <span class="token string">"J"</span><span class="token punctuation">]</span>test_series <span class="token operator">=</span> pd<span class="token punctuation">.</span>Series<span class="token punctuation">(</span>b<span class="token punctuation">,</span> index <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> name <span class="token operator">=</span> <span class="token string">"XuHJ0-0"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true"># 其相应参数为：数据、索引、名称</span><span class="token keyword">print</span><span class="token punctuation">(</span>test_series<span class="token punctuation">)</span></code></pre><p>输出结果如下：</p><pre><code>1    Xu2     H3     JName: XuHJ0-0, dtype: object</code></pre><p>我们可以发现，输出时，不仅输出了索引值和相应的数据，还输出了Series的名称以及类型</p><h4 id="2、DataFrame"><a href="#2、DataFrame" class="headerlink" title="2、DataFrame"></a>2、DataFrame</h4><p>碎言碎语：就目前而言，我在学习和工作中常用DataFrame数据结构，因此我们需要好好研究它。</p><p>Dataframe是一个表格型的数据结构，它含有一组有序的列，每列可以是不同的值。其既有行索引（index），也有列索引（columns），它可以看作是由Series组成的字典（从行看，由一行行Series组成，各个Series名则为行索引名，Series索引则为Dataframe列索引；从列看，由一列列Series组成，各个Series名则为列索引名，Series索引则为Dataframe行索引），然后这些Series又共用一个索引。其实也可以将它看成一个二维的数组结构</p><p>Dataframe构造方法：</p><pre class=" language-python"><code class="language-python">pandas<span class="token punctuation">.</span>Dataframe<span class="token punctuation">(</span>data<span class="token punctuation">,</span> index<span class="token punctuation">,</span> columns<span class="token punctuation">,</span> dtype<span class="token punctuation">,</span> copy<span class="token punctuation">)</span></code></pre><p>参数说明：</p><ul><li><strong>data</strong>：一组数据(ndarray、series, map, lists, dict 等类型)。</li><li><strong>index</strong>：索引值，或者可以称为行标签。</li><li><strong>columns</strong>：列标签，默认为 RangeIndex (0, 1, 2, …, n)，可以指定columns值 。</li><li><strong>dtype</strong>：数据类型。</li><li><strong>copy</strong>：拷贝数据，默认为 False。</li></ul><h4 id="3、Pandas数据清洗"><a href="#3、Pandas数据清洗" class="headerlink" title="3、Pandas数据清洗"></a>3、Pandas数据清洗</h4><hr><p>由于本人没怎么写过文章，且胸中所学较为浅薄，文中难免有所过失，请看客留言相告，本人一定认真修正。</p><p>此篇文章边学边更吧，有空的时候，我就用工作中所写的代码具体介绍讲解吧。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Python </category>
+          
+          <category> 学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python库 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>我入坑啦</title>
+      <link href="/2021/070558812.html"/>
+      <url>/2021/070558812.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>一直想做一个个人网站玩一玩，相信自己也是有那个能力的，不过最近确实较忙，就先做个个人博客耍耍吧。这个博客雏形已经是出来了，后续再慢慢细化，美化吧！<br>我想用这个博客干嘛呢？当然是记录自己的学习之路了，平时也会手动笔记，现在利用这个博客却是可以更好的呈现出来。其次记录自己的生活点滴，或者说是可以公开的日记或者随笔，之前一直用拉普达网站写日记，说到底还是别人的网站和数据库，不过体验感确实不错。最后就是总结总结在股市中跌宕沉浮的经验，希望自己能够每天进步，守住心态！<br>简单讲下这个Blog的技术吧，我自己目前也不是个大拿，也是走在前人的肩膀上。这个博客主要是用的Hexo框架，在用的主题是Hexo的matery，项目托管在github和gitee上，实现国内外访问分流，毕竟国内访问github稳定性不是特别好。<br>欢迎已入坑的广大朋友或者准备入坑的小白，在线留言或者联系我一起交流，我们可以一起把自己的Blog做得更好！</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 随想 </category>
+          
+          <category> 日常 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 博客 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
